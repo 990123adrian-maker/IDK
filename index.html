@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回答我的問題</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #000000 0%, #ffffff 100%);
+            font-family: "Microsoft JhengHei", sans-serif;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 80%;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            animation: fadeIn 2s ease-in;
+        }
+
+        /* --- 3D 翹板開關的樣式 --- */
+        .switch-wrapper {
+            margin-top: 40px;
+            perspective: 1000px; /* 賦予 3D 透視感 */
+            display: inline-block;
+        }
+
+        .rocker-switch {
+            position: relative;
+            display: inline-block;
+            width: 80px;  /* 開關總寬度 */
+            height: 100px; /* 開關總高度 */
+            background-color: #333; /* 黑色外殼 */
+            border-radius: 8px;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .rocker-switch:active {
+            transform: scale(0.95); /* 點擊時輕微縮小 */
+        }
+
+        /* 紅色翹板部分 */
+        .rocker-paddle {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background-color: #ff4136; /* 鮮紅色 */
+            border-radius: 4px;
+            transition: transform 0.3s ease; /* 翹板動畫 */
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2), inset 0 -2px 5px rgba(255,255,255,0.2);
+        }
+
+        /* 默認 (關閉 "O") 狀態 - 翹板上半部突起 */
+        .rocker-switch.off .rocker-paddle {
+            transform: rotateX(15deg) translateY(-2px);
+        }
+
+        /* 開啟 ("|") 狀態 - 翹板下半部突起 */
+        .rocker-switch.on .rocker-paddle {
+            transform: rotateX(-15deg) translateY(2px);
+            background-color: #e60000; /* 按下後顏色稍微變深 */
+        }
+
+        /* "O" 和 "|" 圖示的通用樣式 */
+        .icon-o, .icon-i {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            opacity: 0.8;
+            pointer-events: none; /* 讓圖示不影響點擊 */
+        }
+
+        /* "O" (關閉) 圖示 - 位於上方 */
+        .icon-o {
+            top: 15px;
+            font-size: 24px;
+        }
+
+        /* "|" (開啟) 圖示 - 位於下方 */
+        .icon-i {
+            bottom: 15px;
+            font-size: 28px;
+        }
+
+        /* --- 其他原本的動畫 --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>吳佳倩</h1>
+        
+        <p style="font-size: 1.2em; line-height: 1.6;">按一下，回答我的問題...</p>
+        
+        <div class="switch-wrapper">
+            <div class="rocker-switch off" id="mySwitch" onclick="toggleSwitch()">
+                <div class="rocker-paddle">
+                    <span class="icon-o">O</span>
+                    <span class="icon-i">|</span>
+                </div>
+            </div>
+            <p style="color: #666; font-size: 0.8em; margin-top: 10px;">(點擊開關)</p>
+        </div>
+    </div>
+
+    <script>
+        // 記錄開關狀態
+        let isOn = false;
+
+        function toggleSwitch() {
+            const switchElement = document.getElementById('mySwitch');
+            isOn = !isOn; // 切換狀態
+
+            if (isOn) {
+                // 切換為開啟 ("|") 狀態
+                switchElement.classList.remove('off');
+                switchElement.classList.add('on');
+                
+                // 延遲一下下再彈出視窗，讓開關動畫跑完
+                setTimeout(() => {
+                    alert("妳願意跟我在一起嗎？");
+                    // 彈窗過後自動彈回關閉狀態 (選做，增加互動感)
+                    // switchElement.classList.remove('on');
+                    // switchElement.classList.add('off');
+                    // isOn = false;
+                }, 400); 
+
+            } else {
+                // 切換為關閉 ("O") 狀態
+                switchElement.classList.remove('on');
+                switchElement.classList.add('off');
+            }
+        }
+    </script>
+</body>
+</html>
